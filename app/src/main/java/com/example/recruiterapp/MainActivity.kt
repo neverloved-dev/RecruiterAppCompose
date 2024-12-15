@@ -8,8 +8,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -30,6 +32,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.recruiterapp.common.PasswordInputField
+import com.example.recruiterapp.common.UserEmailInput
 import com.example.recruiterapp.screens.RegisterScreen
 import com.example.recruiterapp.ui.theme.RecruiterAppTheme
 
@@ -47,67 +52,32 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @Composable
+    fun LoginScreenInputCard(){
+        val context = LocalContext.current
+        Card(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Card(modifier = Modifier.padding(16.dp)) {
+                    Column(modifier = Modifier.padding(25.dp)) {
+                        UserEmailInput("")
+                        PasswordInputField("") {}
+                    }
+                }
+                Button(onClick = {/*TODO: make the search screen*/}) {
+                    Text("Log In")
+                }
+                Button(onClick = { moveToRegisterScreen(context) }){
+                    Text("Sign Up")
+                }
+            }
+        }
+        }
+
+
     @Preview
     @Composable
     fun LoginScreenInputCardPreview(){
         LoginScreenInputCard()
-    }
-
-    @Composable
-    fun LoginScreenInputCard(){
-        val context = LocalContext.current
-        Column {
-            Card {
-                Column {
-                    UserEmailInput("")
-                    PasswordInputField("") {}
-                }
-            }
-            Button(onClick = {/*TODO: make the search screen*/}) {
-                Text("Log In")
-            }
-            Button(onClick = { moveToRegisterScreen(context) }){
-                Text("Sign Up")
-            }
-        }
-    }
-
-    @Composable
-    fun UserEmailInput(text:String) {
-        OutlinedTextField(
-            value = text,
-            onValueChange = {},
-            label = { Text("Enter your email") }
-        )
-    }
-
-    @Composable
-    fun PasswordInputField(
-        password: String,
-        onPasswordChange: (String) -> Unit
-    ) {
-        var passwordVisible by remember { mutableStateOf(false) }
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = onPasswordChange,
-            label = { Text("Password") },
-            placeholder = { Text("Enter your password") },
-            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-            trailingIcon = {
-                val image = if (passwordVisible) {
-                    Icons.Default.Visibility
-                } else {
-                    Icons.Default.VisibilityOff
-                }
-
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                    Icon(imageVector = image, contentDescription = "Toggle password visibility")
-                }
-            },
-            singleLine = true,
-            modifier = Modifier.fillMaxWidth()
-        )
     }
 
     private  fun moveToRegisterScreen(context:Context){
